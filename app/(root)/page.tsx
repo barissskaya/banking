@@ -1,13 +1,12 @@
 import HeaderBox from "@/components/HeaderBox";
 import RightSidebar from "@/components/RightSidebar";
 import TotalBalanceBox from "@/components/TotalBalanceBox";
+import { getLoggedInUser } from "@/lib/actions/user.actions";
+import { redirect } from "next/navigation";
 
-function Home() {
-  const loggedIn = {
-    firstName: "Barış",
-    lastName: "KAYA",
-    email: "baris@kaya.com",
-  };
+const Home = async () => {
+  const loggedIn = await getLoggedInUser();
+  if (!loggedIn) redirect("/sign-in");
   return (
     <section className="home">
       <div className="home-content">
@@ -15,7 +14,7 @@ function Home() {
           <HeaderBox
             type="greeting"
             title="Welcome"
-            user={loggedIn?.firstName || "Guest"}
+            user={loggedIn?.name || "Guest"}
             subtext="Access and manage your account and transactions efficiently."
           />
 
@@ -34,6 +33,6 @@ function Home() {
       />
     </section>
   );
-}
+};
 
 export default Home;
