@@ -63,17 +63,13 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl);
     const newUser = await database.createDocument(
       DATABASE_ID!,
-      BANK_COLLECTION_ID!,
+      USER_COLLECTION_ID!,
       ID.unique(),
       {
+        ...userData,
         userId: newUserAccount.$id,
-        bankId: '',
-        accountId: '',
-        accessToken: '',
-        fundingSourceUrl: '',
-        sharableId: '',
         dwollaCustomerId,
-        dwollaCustomerUrl,
+        dwollaCustomerUrl
       }
     );
 
@@ -136,10 +132,11 @@ export const createBankAccount = async ({
   accountId,
   accessToken,
   fundingSourceUrl,
-  sharableId,
+  shareableId,
 }: createBankAccountProps) => {
   try {
     const { database } = await createAdminClient();
+
     const bankAccount = await database.createDocument(
       DATABASE_ID!,
       BANK_COLLECTION_ID!,
@@ -150,13 +147,15 @@ export const createBankAccount = async ({
         accountId,
         accessToken,
         fundingSourceUrl,
-        sharableId,
+        shareableId,
       }
-    );
+    )
 
     return parseStringify(bankAccount);
-  } catch (error) {}
-};
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export const exchangePublicToken = async ({
   publicToken,
@@ -202,7 +201,7 @@ export const exchangePublicToken = async ({
       accountId: accountData.account_id,
       accessToken,
       fundingSourceUrl,
-      sharableId: encryptId(accountData.account_id),
+      shareableId: encryptId(accountData.account_id),
     });
 
     // Revalidate the path to reflect the changes
