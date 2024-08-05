@@ -8,8 +8,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const loggedIn = await getLoggedInUser();
-  if (loggedIn) redirect("/");
   return (
     <main className="flex min-h-screen w-full justify-center font-inter">
       {children}
