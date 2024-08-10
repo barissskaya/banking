@@ -37,12 +37,19 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Mock Data
 ### Sign Up form
+
 City: New York City
+
 State: NY
+
 Postal Code: 12345
+
 SSN: 1234
 
 ### Connect Bank
+
 Select any instution
+
 user: user_good
+
 pass: pass_good
